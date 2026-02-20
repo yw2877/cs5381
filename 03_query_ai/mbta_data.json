@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "total_routes": 50,
+    "unique_types": 5,
+    "most_common_type": "Bus"
+  },
+  "breakdown": {
+    "Bus": 23,
+    "Commuter Rail": 13,
+    "Ferry": 6,
+    "Light Rail": 5,
+    "Heavy Rail": 3
+  },
+  "sample_routes": [
+    {
+      "long_name": "Red Line",
+      "type_label": "Heavy Rail"
+    },
+    {
+      "long_name": "Mattapan Line",
+      "type_label": "Light Rail"
+    },
+    {
+      "long_name": "Orange Line",
+      "type_label": "Heavy Rail"
+    },
+    {
+      "long_name": "Green Line B",
+      "type_label": "Light Rail"
+    },
+    {
+      "long_name": "Green Line C",
+      "type_label": "Light Rail"
+    },
+    {
+      "long_name": "Green Line D",
+      "type_label": "Light Rail"
+    },
+    {
+      "long_name": "Green Line E",
+      "type_label": "Light Rail"
+    },
+    {
+      "long_name": "Blue Line",
+      "type_label": "Heavy Rail"
+    },
+    {
+      "long_name": "Logan Airport Terminals - South Station",
+      "type_label": "Bus"
+    },
+    {
+      "long_name": "Design Center - South Station",
+      "type_label": "Bus"
+    }
+  ]
+}

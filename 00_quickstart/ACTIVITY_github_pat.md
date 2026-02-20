@@ -44,11 +44,15 @@ In this activity, you are asked to follow the necessary steps to allow you to co
 
 - [ ] Create a new project from GitHub, using your repositories GitHub URL. Should end in .git
 - [ ] Open up your coding environment - eg. Posit Cloud / RStudio / Positron / Cursor / VSCode
-- [ ] Install these 3 packages: `install.packages(c("usethis", "gert", "credentials"))`
+- [ ] Install these 3 packages: `install.packages(c("usethis", "gert", "credentials"), repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))`
 - [ ] Create one new `.R` script file.
+- [ ] If you've updated your `.bashrc` file with environment variables, open **Git Bash** and run `source .bashrc` to load your settings
 - [ ] Run the following script below, and then look at the output of your R console and terminal.
 
 ```r
+# Set CRAN mirror (run this first)
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))
+
 # If you haven't yet, install these two packages:
 install.packages(c("gert", "credentials"))
 # Load packages
@@ -68,6 +72,8 @@ usethis::use_git_ignore(".env")
 # Won't change your repository's .gitignore
 usethis::git_vaccinate()
 
+# 🔧 REMINDER: If you've updated your .bashrc file with environment variables,
+# make sure to run 'source .bashrc' in Git Bash to load your settings
 
 # Set your Github Personal Access Token
 credentials::set_github_pat()

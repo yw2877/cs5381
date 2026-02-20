@@ -1,0 +1,22 @@
+MBTA Route Data Summary:
+Total Routes: 50
+Route Types: 5
+
+Breakdown by Type:
+  - Bus: 23 routes
+  - Commuter Rail: 13 routes
+  - Ferry: 6 routes
+  - Light Rail: 5 routes
+  - Heavy Rail: 3 routes
+
+Sample Routes (first 10):
+  - Red Line (Type: Heavy Rail)
+  - Mattapan Line (Type: Light Rail)
+  - Orange Line (Type: Heavy Rail)
+  - Green Line B (Type: Light Rail)
+  - Green Line C (Type: Light Rail)
+  - Green Line D (Type: Light Rail)
+  - Green Line E (Type: Light Rail)
+  - Blue Line (Type: Heavy Rail)
+  - Logan Airport Terminals - South Station (Type: Bus)
+  - Design Center - South Station (Type: Bus)

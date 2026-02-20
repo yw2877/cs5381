@@ -1,0 +1,14 @@
+#!/bin/bash
+# Wrapper script for ollama command
+# This ensures ollama works even if PATH is not set correctly
+
+OLLAMA_EXE="/c/Users/16015/AppData/Local/Programs/Ollama/ollama.exe"
+
+if [ -f "$OLLAMA_EXE" ]; then
+    "$OLLAMA_EXE" "$@"
+else
+    echo "Error: ollama.exe not found at $OLLAMA_EXE"
+    exit 1
+fi
+
+

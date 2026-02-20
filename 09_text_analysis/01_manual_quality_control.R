@@ -8,7 +8,11 @@
 
 # 0. SETUP ###################################
 
-## 0.1 Load Packages #################################
+## 0.1 CRAN Mirror Configuration #################################
+# Set CRAN mirror (required to avoid errors)
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))
+
+## 0.2 Load Packages #################################
 
 # If you haven't already, install required packages:
 # install.packages(c("dplyr", "stringr", "readr"))

@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-02-14 21:40:30.0397",
+  "series": ["FEDFUNDS", "UNRATE", "CPIAUCSL", "DGS10"],
+  "summary": [
+    {
+      "series_id": "CPIAUCSL",
+      "obs_count": 132,
+      "latest_date": "2026-01-01",
+      "latest_value": 326.588,
+      "mean_value": 272.0077,
+      "min_value": 234.747,
+      "max_value": 326.588,
+      "sd_value": 29.8254,
+      "recent_window": 12,
+      "recent_pct_change": 2.3912,
+      "trend_label": "up",
+      "_row": "CPIAUCSL"
+    },
+    {
+      "series_id": "DGS10",
+      "obs_count": 2779,
+      "latest_date": "2026-02-12",
+      "latest_value": 4.09,
+      "mean_value": 2.6602,
+      "min_value": 0.52,
+      "max_value": 4.98,
+      "sd_value": 1.1371,
+      "recent_window": 12,
+      "recent_pct_change": -3.9906,
+      "trend_label": "down",
+      "_row": "DGS10"
+    },
+    {
+      "series_id": "FEDFUNDS",
+      "obs_count": 133,
+      "latest_date": "2026-01-01",
+      "latest_value": 3.64,
+      "mean_value": 2.0158,
+      "min_value": 0.05,
+      "max_value": 5.33,
+      "sd_value": 1.9171,
+      "recent_window": 12,
+      "recent_pct_change": -15.9353,
+      "trend_label": "down",
+      "_row": "FEDFUNDS"
+    },
+    {
+      "series_id": "UNRATE",
+      "obs_count": 132,
+      "latest_date": "2026-01-01",
+      "latest_value": 4.3,
+      "mean_value": 4.6447,
+      "min_value": 3.4,
+      "max_value": 14.8,
+      "sd_value": 1.6567,
+      "recent_window": 12,
+      "recent_pct_change": 7.5,
+      "trend_label": "up",
+      "_row": "UNRATE"
+    }
+  ],
+  "sample_recent_rows": [
+    {
+      "date": "2026-01-15",
+      "value.DGS10": 4.17
+    },
+    {
+      "date": "2026-01-16",
+      "value.DGS10": 4.24
+    },
+    {
+      "date": "2026-01-20",
+      "value.DGS10": 4.3
+    },
+    {
+      "date": "2026-01-21",
+      "value.DGS10": 4.26
+    },
+    {
+      "date": "2026-01-22",
+      "value.DGS10": 4.26
+    },
+    {
+      "date": "2026-01-23",
+      "value.DGS10": 4.24
+    },
+    {
+      "date": "2026-01-26",
+      "value.DGS10": 4.22
+    },
+    {
+      "date": "2026-01-27",
+      "value.DGS10": 4.24
+    },
+    {
+      "date": "2026-01-28",
+      "value.DGS10": 4.26
+    },
+    {
+      "date": "2026-01-29",
+      "value.DGS10": 4.24
+    },
+    {
+      "date": "2026-01-30",
+      "value.DGS10": 4.26
+    },
+    {
+      "date": "2026-02-02",
+      "value.DGS10": 4.29
+    },
+    {
+      "date": "2026-02-03",
+      "value.DGS10": 4.28
+    },
+    {
+      "date": "2026-02-04",
+      "value.DGS10": 4.29
+    },
+    {
+      "date": "2026-02-05",
+      "value.DGS10": 4.21
+    },
+    {
+      "date": "2026-02-06",
+      "value.DGS10": 4.22
+    },
+    {
+      "date": "2026-02-09",
+      "value.DGS10": 4.22
+    },
+    {
+      "date": "2026-02-10",
+      "value.DGS10": 4.16
+    },
+    {
+      "date": "2026-02-11",
+      "value.DGS10": 4.18
+    },
+    {
+      "date": "2026-02-12",
+      "value.DGS10": 4.09
+    }
+  ]
+}

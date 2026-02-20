@@ -1,6 +1,14 @@
-# workflow.R
+# 02_ollama.R
+# Query Ollama LLM
+# Pairs with 02_ollama.py
+# Tim Fraser
 
-# A script to query the lightweight LLM gemma-3-1b!
+# This script demonstrates how to query a local Ollama LLM instance using R.
+# Students will learn how to make HTTP POST requests to interact with language models
+# running locally on their machine.
+
+# Set CRAN mirror (required to avoid errors)
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))
 
 # Starting message
 cat("\n🚀 Sending LLM query in R...\n")
@@ -23,7 +31,7 @@ body <- list(
   stream = FALSE       # Non-streaming response
 )
 
-# Build and send the POST request to the LM Studio REST API
+# Build and send the POST request to the Ollama REST API
 res <- request(url) %>%
   req_body_json(body) %>%   # Attach the JSON body
   req_method("POST") %>%   # Set HTTP method
@@ -33,13 +41,16 @@ res <- request(url) %>%
 response <- resp_body_json(res)
 
 # Extract the model's reply as a character string
-output = response$choices[[1]]$message$content
+# Ollama's /api/generate endpoint returns the response directly in the "response" field
+output = response$response
 
 # Print the model's reply
+cat("\n📝 Model Response:\n")
 cat(output)
+cat("\n")
 
 # Closing message
-cat("\n✅ LLM query complete. Exiting R...\n")
+cat("✅ LLM query complete. Exiting R...\n")
 
 # Close out of R, and don't save the environment.
 q(save = "no")

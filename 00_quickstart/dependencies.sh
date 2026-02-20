@@ -44,9 +44,7 @@ pip install fastapi uvicorn pydantic pandas requests matplotlib shiny
 R --version || echo "⚠️ R not found. Please install R manually."
 
 # Install R packages (run in R)
-R -q -e 'install.packages(c(
-  "shiny", "plumber", "jsonlite", "httr", "httr2", "dplyr", "readr", "googlesheets4", "ollamar", "future", "parallel", "stringr", "ggplot2"
-), repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))'
+R -q -e "install.packages(c('shiny', 'plumber', 'jsonlite', 'httr', 'httr2', 'dplyr', 'readr', 'googlesheets4', 'ollamar', 'future', 'parallel', 'stringr', 'ggplot2'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/latest'))"
 
 # --- DONE ---
 echo "✅ All dependencies installation commands have been run. If you see errors above, please install Python and R manually first."

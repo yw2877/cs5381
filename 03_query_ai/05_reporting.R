@@ -9,14 +9,18 @@
 
 # 0. SETUP ###################################
 
-## 0.1 Load Packages #################################
+## 0.1 CRAN Mirror Configuration #################################
+# Set CRAN mirror (required to avoid errors)
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))
+
+## 0.2 Load Packages #################################
 
 # If you haven't already, install required packages:
 # install.packages(c("readr", "rmarkdown", "officer"))
 
 library(readr)     # for writing text files
-library(rmarkdown) # for generating HTML reports
-library(officer)   # for creating Word documents
+# library(rmarkdown) # for generating HTML reports (requires pandoc)
+# library(officer)   # for creating Word documents
 
 ## 0.2 Mock LLM Output #########################
 
@@ -48,54 +52,34 @@ write_lines(report_text, "report.txt")
 
 cat("✅ Saved report.txt\n")
 
-# 2. SAVE AS MARKDOWN (.md) ###################################
+# Optional: Save as Markdown (.md) - uncomment if needed
+# write_lines(report_text, "report.md")
+# cat("✅ Saved report.md\n")
 
-# Markdown files are great for GitHub and documentation
-# The content is already in markdown format, so we just write it
-write_lines(report_text, "report.md")
+# Optional: Save as HTML (.html) - requires pandoc, uncomment if needed
+# library(rmarkdown)
+# temp_rmd = "temp_report.Rmd"
+# write_lines(c("---", "output: html_document", "---", "", report_text), temp_rmd)
+# render(temp_rmd, output_file = "report.html", quiet = TRUE)
+# file.remove(temp_rmd)
+# cat("✅ Saved report.html\n")
 
-cat("✅ Saved report.md\n")
+# Optional: Save as Word Document (.docx) - uncomment if needed
+# library(officer)
+# doc = read_docx()
+# lines = strsplit(report_text, "\n")[[1]]
+# for (line in lines) {
+#   if (startsWith(line, "# ")) {
+#     doc = body_add_par(doc, substring(line, 3), style = "heading 1")
+#   } else if (startsWith(line, "## ")) {
+#     doc = body_add_par(doc, substring(line, 4), style = "heading 2")
+#   } else if (startsWith(line, "- ")) {
+#     doc = body_add_par(doc, substring(line, 3), style = "List Bullet")
+#   } else if (nchar(trimws(line)) > 0) {
+#     doc = body_add_par(doc, line)
+#   }
+# }
+# print(doc, target = "report.docx")
+# cat("✅ Saved report.docx\n")
 
-# 3. SAVE AS HTML (.html) ###################################
-
-# Create a temporary R Markdown file
-temp_rmd = "temp_report.Rmd"
-write_lines(c("---", "output: html_document", "---", "", report_text), temp_rmd)
-
-# Render to HTML
-render(temp_rmd, output_file = "report.html", quiet = TRUE)
-
-# Clean up temporary file
-file.remove(temp_rmd)
-
-cat("✅ Saved report.html\n")
-
-# 4. SAVE AS WORD DOCUMENT (.docx) ###################################
-
-# Create a Word document using officer package
-doc = read_docx()
-
-# Split content by lines and add to document
-# Handle markdown headers and formatting
-lines = strsplit(report_text, "\n")[[1]]
-
-for (line in lines) {
-  if (startsWith(line, "# ")) {
-    # Main heading
-    doc = body_add_par(doc, substring(line, 3), style = "heading 1")
-  } else if (startsWith(line, "## ")) {
-    # Subheading
-    doc = body_add_par(doc, substring(line, 4), style = "heading 2")
-  } else if (startsWith(line, "- ")) {
-    # Bullet point
-    doc = body_add_par(doc, substring(line, 3), style = "List Bullet")
-  } else if (nchar(trimws(line)) > 0) {
-    # Regular paragraph
-    doc = body_add_par(doc, line)
-  }
-}
-
-print(doc, target = "report.docx")
-
-cat("✅ Saved report.docx\n")
-cat("\n✅ All report formats saved successfully!\n")
+cat("\n✅ Report saved successfully as report.txt!\n")

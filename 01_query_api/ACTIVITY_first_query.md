@@ -23,7 +23,7 @@ Run the example scripts to practice making API calls before working with your ow
 - [ ] Run: `python 02_example.py`
 
 **R:**
-- [ ] Install: `install.packages(c("httr2", "jsonlite"))`
+- [ ] Install: `install.packages(c("httr2", "jsonlite"), repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))`
 - [ ] Run: `source("02_example.R")` or `R -q -e "source('02_example.R')"`
 
 ---

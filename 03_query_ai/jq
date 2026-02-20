@@ -1,0 +1,14 @@
+#!/bin/bash
+# Wrapper script for jq command
+# This ensures jq works even if PATH is not set correctly
+
+JQ_EXE="/c/Users/16015/AppData/Local/Programs/jq/jq.exe"
+
+if [ -f "$JQ_EXE" ]; then
+    "$JQ_EXE" "$@"
+else
+    echo "Error: jq.exe not found at $JQ_EXE"
+    exit 1
+fi
+
+

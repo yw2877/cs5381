@@ -4,6 +4,9 @@
 # This script demonstrates how to query OpenAI's models
 # using your API key stored in the .env file
 
+# Set CRAN mirror (required to avoid errors)
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/latest"))
+
 # Starting message
 cat("\n🚀 Querying OpenAI in R...\n")
 
