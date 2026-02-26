@@ -7,6 +7,6 @@ Use concise professional language.
 
 Data summary:
 - CPIAUCSL: latest=326.588, recent trend=up, recent pct change=2.39%
-- DGS10: latest=4.090, recent trend=down, recent pct change=-3.99%
+- DGS10: latest=4.080, recent trend=down, recent pct change=-4.67%
 - FEDFUNDS: latest=3.640, recent trend=down, recent pct change=-15.94%
 - UNRATE: latest=4.300, recent trend=up, recent pct change=7.50%

@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "locale": "en_US.UTF-8",
+    "metadata": {
+      "appmode": "shiny",
+      "primary_rmd": null,
+      "primary_html": null,
+      "content_category": null,
+      "has_parameters": false
+    },
+    "files": {
+      "app.R": {
+        "checksum": null
+      },
+      "DESCRIPTION": {
+        "checksum": null
+      },
+      "README.md": {
+        "checksum": null
+      }
+    },
+    "packages": {
+      "shiny": {
+        "package": "shiny",
+        "source": "CRAN",
+        "repository": "https://packagemanager.posit.co/cran/latest"
+      },
+      "httr2": {
+        "package": "httr2",
+        "source": "CRAN",
+        "repository": "https://packagemanager.posit.co/cran/latest"
+      },
+      "DT": {
+        "package": "DT",
+        "source": "CRAN",
+        "repository": "https://packagemanager.posit.co/cran/latest"
+      },
+      "ggplot2": {
+        "package": "ggplot2",
+        "source": "CRAN",
+        "repository": "https://packagemanager.posit.co/cran/latest"
+      }
+    },
+    "python": null,
+    "quarto": null
+  }

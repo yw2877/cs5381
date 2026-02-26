@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14 21:40:30.0397",
+  "generated_at": "2026-02-22 01:16:14.29813",
   "series": ["FEDFUNDS", "UNRATE", "CPIAUCSL", "DGS10"],
   "summary": [
     {
@@ -18,15 +18,15 @@
     },
     {
       "series_id": "DGS10",
-      "obs_count": 2779,
-      "latest_date": "2026-02-12",
-      "latest_value": 4.09,
-      "mean_value": 2.6602,
+      "obs_count": 2783,
+      "latest_date": "2026-02-19",
+      "latest_value": 4.08,
+      "mean_value": 2.6622,
       "min_value": 0.52,
       "max_value": 4.98,
-      "sd_value": 1.1371,
+      "sd_value": 1.1376,
       "recent_window": 12,
-      "recent_pct_change": -3.9906,
+      "recent_pct_change": -4.6729,
       "trend_label": "down",
       "_row": "DGS10"
     },
@@ -60,22 +60,6 @@
     }
   ],
   "sample_recent_rows": [
-    {
-      "date": "2026-01-15",
-      "value.DGS10": 4.17
-    },
-    {
-      "date": "2026-01-16",
-      "value.DGS10": 4.24
-    },
-    {
-      "date": "2026-01-20",
-      "value.DGS10": 4.3
-    },
-    {
-      "date": "2026-01-21",
-      "value.DGS10": 4.26
-    },
     {
       "date": "2026-01-22",
       "value.DGS10": 4.26
@@ -139,6 +123,22 @@
     {
       "date": "2026-02-12",
       "value.DGS10": 4.09
+    },
+    {
+      "date": "2026-02-13",
+      "value.DGS10": 4.04
+    },
+    {
+      "date": "2026-02-17",
+      "value.DGS10": 4.05
+    },
+    {
+      "date": "2026-02-18",
+      "value.DGS10": 4.09
+    },
+    {
+      "date": "2026-02-19",
+      "value.DGS10": 4.08
     }
   ]
 }

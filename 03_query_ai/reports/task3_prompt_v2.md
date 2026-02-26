@@ -13,4 +13,4 @@ If uncertain, write 'insufficient evidence'.
 - FEDFUNDS: latest=3.640, trend=down, recent_change_pct=-15.94
 - UNRATE: latest=4.300, trend=up, recent_change_pct=7.50
 - CPIAUCSL: latest=326.588, trend=up, recent_change_pct=2.39
-- DGS10: latest=4.090, trend=down, recent_change_pct=-3.99
+- DGS10: latest=4.080, trend=down, recent_change_pct=-4.67
