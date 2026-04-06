@@ -1,4 +1,4 @@
-# 04_agents.R
+# 03_agents_with_function_calling.R
 
 # This script demonstrates this course's approach to building agents.
 
@@ -73,7 +73,13 @@ agent = function(messages, model = "smollm2:1.7b", output = "text", tools = NULL
     resp[[i]]$output = do.call(resp[[i]]$name, resp[[i]]$arguments)
     }
     }
-    if(all) { return(resp) } else { return(resp[[n_resp]]$output) }
+    if(all) {
+        return(resp)
+    } else if(output == "tools") {
+        return(resp)
+    } else {
+        return(resp[[n_resp]]$output)
+    }
     }
 
 }
@@ -81,6 +87,9 @@ agent = function(messages, model = "smollm2:1.7b", output = "text", tools = NULL
 
 # Define a function to be used as a tool
 add_two_numbers = function(x, y){ return(x + y) }
+
+# Define a new function to be used as a tool
+format_text = function(text){ return(str_to_upper(text)) }
 
 # Define the tool metadata as a list
 tool_add_two_numbers = list(
@@ -97,6 +106,22 @@ tool_add_two_numbers = list(
                 )
             )
         )
+)
+
+# Define tool metadata for the new formatting tool
+tool_format_text = list(
+    type = "function",
+    "function" = list(
+        name = "format_text",
+        description = "Convert text to uppercase",
+        parameters = list(
+            type = "object",
+            required = list("text"),
+            properties = list(
+                text = list(type = "string", description = "text to convert to uppercase")
+            )
+        )
+    )
 )
 
 # Define a function to be used as a tool
@@ -142,6 +167,16 @@ resp2
 
 # Compare against manual approach
 knitr::kable(data.frame(x = resp[[1]]$output), format = "markdown")
+
+# Try calling the new tool added for stage 2
+resp3 = create_message(
+    role = "user",
+    content = "Use the format_text tool to convert 'cheese party' to uppercase."
+) |>
+    agent(model = model, output = "tools", tools = list(tool_format_text))
+resp3
+
+resp3[[1]]$output
 
 # We can use this agent() function to rapidly build and test out agents with or without tools.
 

@@ -1,4 +1,4 @@
-# 03_function_calling.R
+# 02_function_calling.R
 
 # This script demonstrates how to use the ollamar package in R to interact with an LLM that supports function calling.
 
@@ -15,6 +15,10 @@ MODEL = "smollm2:1.7b"
 # Define a function to be used as a tool
 add_two_numbers = function(x, y){
     return(x + y)
+}
+
+multiply_numbers = function(x, y){
+    return(x * y)
 }
 
 # Define the tool metadata as a list
@@ -34,14 +38,47 @@ tool_add_two_numbers = list(
     )
 )
 
+tool_multiply_numbers = list(
+    type = "function",
+    "function" = list(
+        name = "multiply_numbers",
+        description = "Multiply two numbers",
+        parameters = list(
+            type = "object",
+            required = list("x", "y"),
+            properties = list(
+                x = list(type = "numeric", description = "first number"),
+                y = list(type = "numeric", description = "second number")
+            )
+        )
+    )
+)
+
 # Create a simple chat history with a user question that will require the tool
-messages = create_message(role = "user", content = "What is 3 + 2?")
-resp = chat(model = MODEL, messages = messages, tools = list(tool_add_two_numbers), output = "tools", stream = FALSE)
+messages = create_message(
+    role = "user",
+    content = "What is 3 times 2? Use the multiplication tool."
+)
+resp = chat(
+    model = MODEL,
+    messages = messages,
+    tools = list(tool_add_two_numbers, tool_multiply_numbers),
+    output = "tools",
+    stream = FALSE
+)
 
 # Receive back the tool call
-tool = resp[[1]]
-# Execute the tool call
-do.call(tool$name, tool$arguments)
+if(length(resp) > 0){
+    tool = resp[[1]]
+    result = do.call(tool$name, tool$arguments)
+    
+    cat("Tool called:", tool$name, "\n")
+    cat("Arguments:\n")
+    print(tool$arguments)
+    cat("Tool call result:", result, "\n")
+} else {
+    cat("No tool calls in response\n")
+}
 
 # Clean up shop
 rm(list = ls())

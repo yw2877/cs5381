@@ -2,6 +2,92 @@
 
 # This script contains functions used for multi-agent orchestration in R.
 
+# Return a clearer error than a bare HTTP 404 when the Ollama model is missing.
+chat_with_diagnostics = function(model, messages, output = "text", tools = NULL) {
+  tryCatch(
+    {
+      if (is.null(tools)) {
+        ollamar::chat(model = model, messages = messages, output = output, stream = FALSE)
+      } else {
+        ollamar::chat(model = model, messages = messages, tools = tools, output = output, stream = FALSE)
+      }
+    },
+    error = function(e) {
+      msg = conditionMessage(e)
+      if (grepl("HTTP 404", msg, fixed = TRUE)) {
+        host = Sys.getenv("OLLAMA_HOST")
+        if (identical(host, "")) {
+          host = "http://127.0.0.1:11434"
+        }
+        stop(
+          paste0(
+            "Ollama returned HTTP 404 for model '", model, "' at ", host, ". ",
+            "This usually means the model is not installed on that Ollama server. ",
+            "Run ensure_ollama_model('", model, "') before agent_run(), or pull it manually with ollamar::pull()."
+          ),
+          call. = FALSE
+        )
+      }
+      stop(e)
+    }
+  )
+}
+
+# Check that Ollama is reachable and that the requested model exists locally.
+ensure_ollama_model = function(model, auto_pull = TRUE) {
+  host = Sys.getenv("OLLAMA_HOST")
+  if (identical(host, "")) {
+    host = "http://127.0.0.1:11434"
+  }
+
+  models = tryCatch(
+    ollamar::list_models(),
+    error = function(e) {
+      stop(
+        paste0(
+          "Could not reach Ollama at ", host, ". ",
+          "Start the Ollama server or set OLLAMA_HOST correctly. Original error: ",
+          conditionMessage(e)
+        ),
+        call. = FALSE
+      )
+    }
+  )
+
+  model_names = if ("name" %in% names(models)) models$name else character()
+  has_model = any(model_names == model)
+  if (has_model) {
+    return(invisible(model))
+  }
+
+  if (!auto_pull) {
+    installed = if (length(model_names) > 0) paste(model_names, collapse = ", ") else "<none>"
+    stop(
+      paste0(
+        "Ollama model '", model, "' is not installed on ", host, ". Installed models: ", installed
+      ),
+      call. = FALSE
+    )
+  }
+
+  message("Ollama model '", model, "' is not installed. Pulling it now...")
+  tryCatch(
+    {
+      ollamar::pull(model)
+      invisible(model)
+    },
+    error = function(e) {
+      stop(
+        paste0(
+          "Failed to pull Ollama model '", model, "'. ",
+          "Original error: ", conditionMessage(e)
+        ),
+        call. = FALSE
+      )
+    }
+  )
+}
+
 #' @name agent
 #' @title Agent Wrapper Function
 #' @description A helper wrapper function that will run a single agent, with or without tools.
@@ -47,12 +133,12 @@ agent = function(messages, model = "smollm2:1.7b", output = "text", tools = NULL
 
     # If the agent has NO tools, perform a standard chat
     if(is.null(tools)) {
-        resp = chat(model = model, messages = messages, output = output, stream = FALSE)
+        resp = chat_with_diagnostics(model = model, messages = messages, output = output)
         return(resp)
     } else {
         
     # If the agent has any tools, perform a tool call
-    resp = chat(model = model, messages = messages, tools = tools, output = output, stream = FALSE)
+    resp = chat_with_diagnostics(model = model, messages = messages, tools = tools, output = output)
 
     # For any given tool call, execute the tool call
     n_resp = length(resp)
@@ -74,9 +160,9 @@ agent_run = function(role, task, tools = NULL, output = "text",model = MODEL){
   # tools = NULL; output = "text"; model = MODEL;
 
   # Define the messages to be sent to the agent
-  messages = create_messages(
-    create_message(role = "system", content = role),
-    create_message(role = "user", content = task)
+  messages = ollamar::create_messages(
+    ollamar::create_message(role = "system", content = role),
+    ollamar::create_message(role = "user", content = task)
   )
 
   # Run the agent

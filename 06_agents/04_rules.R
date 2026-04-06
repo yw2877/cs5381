@@ -13,10 +13,19 @@ library(purrr)
 library(lubridate)
 library(yaml)
 
+# Ensure Ollama is reachable (default: http://127.0.0.1:11434)
+# If Ollama runs elsewhere, set OLLAMA_HOST before sourcing, e.g.:
+#   Sys.setenv(OLLAMA_HOST = "http://localhost:11434")
+if (Sys.getenv("OLLAMA_HOST") == "") {
+  Sys.setenv(OLLAMA_HOST = "http://127.0.0.1:11434")
+}
+
 source("functions.R")
 
-# Select model of interest
-MODEL = "smollm2:135m"
+# Select model of interest (must be pulled: ollama pull smollm2:135m)
+# This script now auto-pulls the model through ollamar if it is missing.
+MODEL = "gemma3:latest"
+ensure_ollama_model(MODEL)
 
 # =============================================================================
 # Load Rules from YAML
@@ -30,9 +39,9 @@ MODEL = "smollm2:135m"
 # Load in rules
 rules = yaml::read_yaml("04_rules.yaml")
 
-# Extract rules as named lists for easy access
-rules_data_analysis = rules$rules$data_analysis
-rules_press_release = rules$rules$press_release
+# Extract the first ruleset in each category
+rules_data_analysis = rules$rules$data_analysis[[1]]
+rules_press_release = rules$rules$press_release[[1]]
 
 # =============================================================================
 # Helper Function: Format Rules for System Prompt

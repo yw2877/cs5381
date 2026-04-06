@@ -7,30 +7,35 @@ require(ollamar)
 require(dplyr)
 require(stringr)
 
+# Ensure Ollama uses the default local host unless configured otherwise.
+if (Sys.getenv("OLLAMA_HOST") == "") {
+    Sys.setenv(OLLAMA_HOST = "http://127.0.0.1:11434")
+}
+
 # Select model of interest
-MODEL = "smollm2:1.7b"
+MODEL = "gemma3:latest"
 
 
 # Check if model is currently loaded
-has_model = list_models() |> 
-    filter(str_detect(name, MODEL)) %>%
+has_model = ollamar::list_models() |> 
+    dplyr::filter(stringr::str_detect(name, MODEL)) %>%
     nrow() > 0
 
 # If model is not loaded, pull it
-if(!has_model) { pull(MODEL) }
+if(!has_model) { ollamar::pull(MODEL) }
 
 # Create a list of messages
-messages = create_messages(
+messages = ollamar::create_messages(
     # Start with a system prompt
-    create_message(role = "system", content = "You are a talking mouse. Your name is Jerry. You can only talk about mice and cheese."),
+    ollamar::create_message(role = "system", content = "You are a helpful data analyst. Summarize patterns clearly, use plain language, and give concise recommendations."),
     # Add user prompt
-    create_message(role = "user", content = "Hello, how are you?")
+    ollamar::create_message(role = "user", content = "Here is weekly sales data in dollars: Monday 120, Tuesday 95, Wednesday 140, Thursday 110, Friday 180. Identify the main trend, the highest and lowest day, and give one recommendation.")
 )
 
 system.time({
-    resp = chat(model = MODEL, messages = messages, output = "text", stream = FALSE)
+    resp = ollamar::chat(model = MODEL, messages = messages, output = "text", stream = FALSE)
     # append result to chat history
-    messages = append_message(x = messages, role = "assistant", content = resp)
+    messages = ollamar::append_message(x = messages, role = "assistant", content = resp)
 })
 
 # View the response

@@ -1,0 +1,1150 @@
+Mishkin + FRED RAG Knowledge Base (Expanded Version)
+
+Purpose:
+This file is an expanded textbook-style knowledge base for a RAG system that combines Mishkin concepts with FRED API data. Each topic includes the core economic logic, the main formulas, variable definitions, what the formula means conceptually, what a calculated result suggests economically, and how the result can be linked to FRED series in a financial or macroeconomic answer.
+
+How to Use in RAG:
+1. Retrieve the topic that best matches the user's question.
+2. Use the formulas to structure the explanation.
+3. Use FRED-linked formulas to calculate current or recent values.
+4. Combine the textbook interpretation with live FRED data to answer questions about inflation, interest rates, monetary policy, yield curves, and macroeconomic conditions.
+
+====================================================================
+RAG RETRIEVAL INDEX AND IMPLEMENTATION NOTES
+====================================================================
+
+Data Source Type:
+Text file knowledge base for a financial and macroeconomic RAG workflow.
+
+Recommended Retrieval Unit:
+For implementation, treat each major section below as one retrievable entry instead of searching by individual line.
+
+Recommended Entry Count for Lab Submission:
+7 retrievable entries
+1. TOPIC 1: Understanding Interest Rates
+2. TOPIC 2: The Behaviour of Interest Rates
+3. TOPIC 3: The Risk and Term Structure of Interest Rates
+4. TOPIC 4: Central Banks
+5. TOPIC 5: The Conduct of Monetary Policy
+6. TOPIC 6: Money and Inflation
+7. High-Value Cross-Topic Interpretation Rules for RAG Answers
+
+Suggested Chunking Rule:
+Chunk on the major uppercase section headers. Keep each TOPIC section intact so formulas, concepts, and FRED links remain together.
+
+What This Knowledge Base Is Best At:
+- Explaining macroeconomic concepts in plain language
+- Connecting textbook logic to live FRED series
+- Interpreting inflation, rates, yield curves, labor market signals, and policy stance
+- Supporting structured answers that combine formulas, current data, and economic interpretation
+
+What This Knowledge Base Is Not Designed For:
+- Firm-specific equity valuation
+- Option pricing
+- High-frequency trading signals
+- International macroeconomic comparisons outside the U.S. FRED context
+- Pure forecasting without current or recent data
+
+SERIES ALIAS MAP FOR RETRIEVAL
+
+Common Natural-Language Name -> Relevant FRED Series
+Federal funds rate -> FEDFUNDS, EFFR
+Policy rate -> FEDFUNDS, EFFR
+10-year Treasury yield -> DGS10, GS10
+2-year Treasury yield -> DGS2
+3-month Treasury bill -> TB3MS
+Yield curve / 10y-2y spread -> DGS10, DGS2, T10Y2Y
+CPI inflation -> CPIAUCSL
+PCE inflation -> PCEPI
+Unemployment rate -> UNRATE
+Payroll employment / payrolls -> PAYEMS
+Industrial production -> INDPRO
+Money supply / M2 -> M2SL
+Fed balance sheet -> WALCL
+Reserve balances / total reserves -> TOTRESNS
+Fed target range upper bound -> DFEDTARU
+Fed target range lower bound -> DFEDTARL
+Interest on reserve balances -> IORB
+Real GDP -> GDPC1
+Potential GDP -> GDPPOT
+Corporate bond yields / credit spreads -> AAA, BAA
+
+RAG ANSWER GUARDRAILS
+
+Guardrail 1:
+If a formula uses "approx", the answer should describe it as an approximation rather than an exact identity.
+
+Guardrail 2:
+If nominal rates move, check inflation before concluding that real financial conditions changed in the same direction.
+
+Guardrail 3:
+If a yield curve is inverted, describe it as a warning signal or elevated risk indicator, not definitive proof of recession.
+
+Guardrail 4:
+If money growth and inflation move differently in the short run, note that lags and velocity changes can matter.
+
+Guardrail 5:
+If a question mixes series with different frequencies, the answer should acknowledge the mismatch before interpreting results.
+
+====================================================================
+TOPIC 1: UNDERSTANDING INTEREST RATES
+====================================================================
+
+Entry ID:
+topic_1_understanding_interest_rates
+
+Retrieval Label:
+interest_rate_basics_and_real_rate_interpretation
+
+Keywords:
+interest rates, nominal interest rate, real interest rate, Fisher equation, bond prices, yields, present value, discounting, discount rate, coupon bond, zero-coupon bond, Treasury yields, inflation-adjusted rate, holding-period return, asset valuation
+
+Primary FRED Series:
+FEDFUNDS, DGS2, DGS10, GS10, TB3MS, CPIAUCSL, PCEPI
+
+Typical Questions:
+- Why do bond prices fall when interest rates rise?
+- What is the difference between nominal and real interest rates?
+- How can I estimate a real policy rate from FRED data?
+- What does a rise in Treasury yields mean for valuation and borrowing conditions?
+
+Answer Focus:
+Use this topic to explain basic interest-rate mechanics, bond pricing, real-versus-nominal interpretation, and how inflation changes the meaning of observed rates.
+
+Cross-References:
+Use with TOPIC 2 for why rates moved, TOPIC 3 for yield curve interpretation, TOPIC 5 for policy stance, and TOPIC 6 for inflation context.
+
+Core Idea:
+Interest rates determine the cost of borrowing, the return on saving, and the present value of future cash flows. They are central to bond pricing, investment decisions, and monetary policy analysis. A key principle is that bond prices and interest rates move in opposite directions. Another key principle is that nominal rates must be adjusted for inflation to understand the true economic return.
+
+Why This Topic Matters for FRED:
+This topic provides the foundation for interpreting FRED series such as FEDFUNDS, DGS2, DGS10, GS10, CPIAUCSL, and PCEPI. It helps explain how changes in inflation affect real rates, how policy rates compare with long-term yields, and why movements in rates change the valuation of financial assets.
+
+Formula 1: Present Value
+PV = CF / (1 + i)^n
+Variables:
+PV = present value
+CF = future cash flow
+i = interest rate or discount rate
+n = number of periods
+Conceptual Meaning:
+A dollar received in the future is worth less than a dollar received today because money has a time value.
+What the Result Tells Us:
+If i rises, PV falls. This means future payments become less valuable when discount rates increase.
+Interpretation in Finance:
+Higher rates reduce the value of bonds, stocks, and other long-duration assets because future cash flows are discounted more heavily.
+FRED Connection:
+If FEDFUNDS or Treasury yields rise, discount rates in the economy rise. This supports the interpretation that tighter policy can reduce asset valuations.
+
+Formula 2: Fixed-Payment Loan Value
+LV = FP/(1 + i) + FP/(1 + i)^2 + ... + FP/(1 + i)^n
+Variables:
+LV = loan value
+FP = fixed payment each period
+i = interest rate
+n = number of periods
+Conceptual Meaning:
+A fixed-payment loan is worth the discounted sum of all future payments.
+What the Result Tells Us:
+A higher i reduces the loan's present value for a given stream of payments.
+Interpretation in Finance:
+When market rates rise, previously issued fixed-payment loans become less attractive because new loans offer higher returns.
+FRED Connection:
+This helps explain how rising benchmark rates such as FEDFUNDS can affect lending markets and debt valuation.
+
+Formula 3: Coupon Bond Price
+P = C/(1 + i) + C/(1 + i)^2 + ... + C/(1 + i)^n + F/(1 + i)^n
+Variables:
+P = bond price
+C = coupon payment
+F = face value
+i = yield to maturity
+n = number of periods to maturity
+Conceptual Meaning:
+A bond's price equals the present value of all coupon payments plus the present value of repayment of principal.
+What the Result Tells Us:
+If yield i increases, bond price P decreases. If yield falls, bond price rises.
+Interpretation in Finance:
+This is the mathematical basis for the inverse relationship between bond prices and yields.
+FRED Connection:
+When DGS10 rises, the price of an existing 10-year bond would fall. This helps the model explain why periods of rapid rate hikes often lead to bond-market losses.
+
+Formula 4: Perpetuity / Consol
+Pc = C / ic
+Equivalent form:
+ic = C / Pc
+Variables:
+Pc = price of perpetuity or consol
+C = constant coupon payment
+ic = yield on perpetuity
+Conceptual Meaning:
+A perpetuity pays a constant payment forever, so its price depends entirely on the level of the required yield.
+What the Result Tells Us:
+If required yield rises, price falls sharply.
+Interpretation in Finance:
+Very long-duration assets are especially sensitive to rate changes.
+FRED Connection:
+This helps explain why long-term valuation can move strongly when long-term Treasury yields change.
+
+Formula 5: One-Year Discount Bond Yield
+i = (F - P) / P
+Variables:
+F = face value
+P = purchase price
+i = yield
+Conceptual Meaning:
+The investor's return comes entirely from buying the bond below face value and receiving face value at maturity.
+What the Result Tells Us:
+A lower purchase price implies a higher yield.
+Interpretation in Finance:
+This is a simple form of the price-yield inverse relationship.
+FRED Connection:
+This logic underlies short-term rate series such as TB3MS.
+
+Formula 6: General Zero-Coupon Bond Pricing
+P = F / (1 + i)^n
+Equivalent form:
+i = (F / P)^(1/n) - 1
+Variables:
+P = current price
+F = future face value
+i = yield
+n = number of periods
+Conceptual Meaning:
+A zero-coupon bond is priced entirely from discounting a single future payment.
+What the Result Tells Us:
+For a fixed face value and maturity, lower price means higher yield.
+Interpretation in Finance:
+This formula is useful for understanding Treasury pricing and discounting over multiple horizons.
+FRED Connection:
+Helps explain how changes in observed Treasury yields reflect changes in discounting conditions.
+
+Formula 7: Holding-Period Return
+RET = [C + (Pt+1 - Pt)] / Pt
+Equivalent decomposition:
+RET = ic + g
+where
+ic = C / Pt
+g = (Pt+1 - Pt) / Pt
+Variables:
+RET = holding-period return
+C = coupon income
+Pt = initial price
+Pt+1 = future price
+ic = current yield
+g = capital gain rate
+Conceptual Meaning:
+Total return over a holding period includes both income and price change.
+What the Result Tells Us:
+A bond can have a negative holding-period return even if it pays coupons, if its price falls enough.
+Interpretation in Finance:
+This explains why rising rates can hurt bond investors despite fixed coupon income.
+FRED Connection:
+If DGS10 rises quickly, previously issued bonds likely experience capital losses. This can be used to explain poor bond returns during tightening cycles.
+
+Formula 8: Fisher Equation
+i = ir + pi_e
+More exact form:
+i = ir + pi_e + ir*pi_e
+Approximation:
+ir approx i - pi_e
+Variables:
+i = nominal interest rate
+ir = real interest rate
+pi_e = expected inflation
+Conceptual Meaning:
+Nominal interest rates combine the real return with compensation for expected inflation.
+What the Result Tells Us:
+If nominal rates rise because inflation expectations rise, the real stance of policy may not have tightened much.
+Interpretation in Macroeconomics:
+Real rates matter more than nominal rates when judging whether borrowing conditions are restrictive.
+FRED Connection:
+Use FEDFUNDS or DGS10 together with CPIAUCSL or PCEPI inflation to approximate real rates.
+
+Formula 9: After-Tax Real Interest Rate
+ir_after_tax = i*(1 - t) - pi_e
+Variables:
+t = tax rate
+Conceptual Meaning:
+Taxes reduce the nominal return received by investors, and inflation further erodes purchasing power.
+What the Result Tells Us:
+A positive nominal return may still translate into a low or even negative real after-tax return.
+Interpretation in Finance:
+This helps explain why high inflation environments can hurt savers even when nominal rates appear attractive.
+FRED Connection:
+Use Treasury yields plus inflation to discuss real return pressure, though tax rates are usually added manually rather than taken from FRED.
+
+FRED-Linked Formula 10: CPI Year-over-Year Inflation
+pi_CPI_yoy_t = 100 * (CPIAUCSL_t / CPIAUCSL_t-12 - 1)
+Conceptual Meaning:
+This converts the CPI price index into a yearly inflation rate.
+What the Result Tells Us:
+A higher value means consumer prices are rising faster than one year ago.
+Interpretation in Macroeconomics:
+Persistent high CPI inflation suggests continued price pressure and may justify tighter policy.
+Related FRED Series:
+CPIAUCSL
+
+FRED-Linked Formula 11: PCE Year-over-Year Inflation
+pi_PCE_yoy_t = 100 * (PCEPI_t / PCEPI_t-12 - 1)
+Conceptual Meaning:
+This converts the PCE price index into a yearly inflation rate.
+What the Result Tells Us:
+A rising value indicates stronger inflation pressure in the Fed's preferred broad consumption measure.
+Interpretation in Macroeconomics:
+PCE is often used when discussing central bank inflation assessment.
+Related FRED Series:
+PCEPI
+
+FRED-Linked Formula 12: Ex Post Real Policy Rate
+real_policy_rate_t approx FEDFUNDS_t - pi_t
+Conceptual Meaning:
+This approximates the inflation-adjusted short-term policy rate.
+What the Result Tells Us:
+A strongly positive real policy rate suggests restrictive monetary conditions. A negative real policy rate suggests accommodative conditions.
+Interpretation in Policy Analysis:
+This is one of the most useful quick indicators for judging the stance of monetary policy.
+Related FRED Series:
+FEDFUNDS, CPIAUCSL or PCEPI
+
+FRED-Linked Formula 13: Ex Post Real 10-Year Treasury Yield
+real_10y_t approx DGS10_t - pi_t
+Conceptual Meaning:
+This approximates the inflation-adjusted long-term Treasury yield.
+What the Result Tells Us:
+A rising real long-term yield suggests tighter long-run financing conditions or stronger growth expectations.
+Interpretation in Markets:
+Real long rates matter for investment, valuation, and housing-sensitive sectors.
+Related FRED Series:
+DGS10, CPIAUCSL or PCEPI
+
+====================================================================
+TOPIC 2: THE BEHAVIOUR OF INTEREST RATES
+====================================================================
+
+Entry ID:
+topic_2_behaviour_of_interest_rates
+
+Retrieval Label:
+why_interest_rates_move_in_macro_context
+
+Keywords:
+why did rates rise, why did rates fall, bond market, money market, money demand, bond demand, expected inflation, Fisher effect, labor market, payroll growth, unemployment, business cycle, inflation expectations, market yields, macro drivers of rates
+
+Primary FRED Series:
+FEDFUNDS, DGS10, CPIAUCSL, PCEPI, UNRATE, PAYEMS, INDPRO, M2SL
+
+Typical Questions:
+- Why did interest rates rise recently?
+- Why can long-term yields move before the Fed changes rates?
+- How do inflation expectations affect Treasury yields?
+- How do labor market strength and payroll growth relate to rates?
+
+Answer Focus:
+Use this topic to explain the macroeconomic drivers of interest-rate changes, especially inflation expectations, labor conditions, money demand, and bond-market equilibrium.
+
+Cross-References:
+Use with TOPIC 1 for core rate concepts, TOPIC 3 for term-structure signals, TOPIC 5 for policy interpretation, and TOPIC 6 for inflation persistence.
+
+Core Idea:
+Interest rates are determined by the interaction of supply and demand in bond and money markets. They are affected by expected inflation, income, business conditions, and financial market behavior. This topic explains why rates move over the business cycle and why market rates may change even when the central bank has not yet moved its policy rate.
+
+Why This Topic Matters for FRED:
+It helps connect observed movements in FEDFUNDS, DGS10, CPIAUCSL, PCEPI, UNRATE, INDPRO, and PAYEMS. This chapter is useful when a user asks why rates rose, why rates fell, or why long-term yields moved differently from short-term rates.
+
+Formula 1: Bond Market Equilibrium
+Bd = Bs
+Variables:
+Bd = demand for bonds
+Bs = supply of bonds
+Conceptual Meaning:
+The bond market clears when the amount investors want to hold equals the amount issuers want to supply.
+What the Result Tells Us:
+At equilibrium, the observed interest rate balances financing demand and investor willingness to lend.
+Interpretation in Markets:
+If bond demand rises, prices rise and yields fall. If bond supply rises, prices fall and yields rise.
+FRED Connection:
+This supports explanations of why interest rates may rise during stronger growth periods or periods of heavy borrowing.
+
+Formula 2: Wealth Identity
+Bs + Ms = Bd + Md
+Equivalent rearrangement:
+Bs - Bd = Md - Ms
+Variables:
+Ms = money supply
+Md = money demand
+Conceptual Meaning:
+Conditions in the bond market and money market are linked through household and institutional portfolio choices.
+What the Result Tells Us:
+If people want to hold more money relative to bonds, pressure can emerge on bond demand and rates.
+Interpretation in Macroeconomics:
+Portfolio reallocation across money and bonds helps explain rate changes.
+FRED Connection:
+This can be used together with M2SL and interest rate series when discussing liquidity preference.
+
+Formula 3: Money Market Equilibrium
+Md = Ms
+Conceptual Meaning:
+The money market is in equilibrium when desired money holdings equal supplied money balances.
+What the Result Tells Us:
+If money demand rises unexpectedly, rates may rise until equilibrium is restored.
+Interpretation in Policy Analysis:
+This helps explain short-run rate movements tied to liquidity conditions.
+FRED Connection:
+Useful when discussing how policy or stress periods affect money demand and short-term rates.
+
+Formula 4: Fisher Effect
+Delta i approx Delta pi_e
+Alternative static form:
+i approx r + pi_e
+Conceptual Meaning:
+Expected inflation tends to be passed through into nominal interest rates over time.
+What the Result Tells Us:
+If inflation expectations rise by 1 percentage point, nominal rates often rise as well, though not always one-for-one in the short run.
+Interpretation in Macroeconomics:
+A rise in nominal yields does not automatically mean tighter real conditions; it may simply reflect higher inflation expectations.
+FRED Connection:
+Use inflation measures from CPIAUCSL or PCEPI to discuss why Treasury yields may move upward.
+
+FRED-Linked Formula 5: Inflation Expectation Proxy
+pi_e_t approx pi_yoy_t
+Conceptual Meaning:
+When direct expectations data are not used, recent realized inflation can serve as a rough proxy for expected inflation.
+What the Result Tells Us:
+A persistently high realized inflation rate suggests that households and firms may begin expecting higher future inflation.
+Interpretation in Practice:
+This is a simplified approximation, not a perfect expectation measure.
+Related FRED Series:
+CPIAUCSL, PCEPI
+
+FRED-Linked Formula 6: Payroll Growth
+payroll_growth_yoy_t = 100 * (PAYEMS_t / PAYEMS_t-12 - 1)
+Conceptual Meaning:
+This measures labor market expansion through year-over-year payroll employment growth.
+What the Result Tells Us:
+A stronger payroll growth rate suggests a stronger labor market and possibly stronger aggregate demand.
+Interpretation in Macroeconomics:
+Strong labor markets can support higher consumption, stronger growth, and possibly upward pressure on rates.
+Related FRED Series:
+PAYEMS
+
+FRED-Linked Formula 7: Empirical Interest Rate Response Model
+i_t = alpha + beta1*pi_t + beta2*UNRATE_t + beta3*payroll_growth_t + error_t
+Conceptual Meaning:
+This is an empirical implementation of the chapter's logic: rates respond to inflation, labor market tightness, and macro conditions.
+What the Result Tells Us:
+A positive beta1 would mean higher inflation is associated with higher rates; a negative beta2 would mean higher unemployment is associated with lower rates.
+Interpretation in Research:
+This is not a textbook identity but a practical model for turning Mishkin's theory into data analysis.
+Related FRED Series:
+FEDFUNDS or DGS10, CPIAUCSL or PCEPI, UNRATE, PAYEMS
+
+====================================================================
+TOPIC 3: THE RISK AND TERM STRUCTURE OF INTEREST RATES
+====================================================================
+
+Entry ID:
+topic_3_risk_and_term_structure
+
+Retrieval Label:
+yield_curve_credit_spreads_and_recession_signals
+
+Keywords:
+yield curve, inverted yield curve, term spread, term structure, risk structure, credit spread, default risk, liquidity premium, expectations theory, recession signal, DGS10, DGS2, T10Y2Y, AAA, BAA
+
+Primary FRED Series:
+DGS2, DGS10, T10Y2Y, AAA, BAA
+
+Typical Questions:
+- Is the yield curve inverted?
+- What does a negative 10-year minus 2-year spread mean?
+- Are credit spreads signaling tighter financial conditions?
+- What is the difference between a term spread and a credit spread?
+
+Answer Focus:
+Use this topic to interpret the slope of the yield curve, market expectations about future short rates, and whether risk spreads suggest tighter credit conditions or elevated recession risk.
+
+Cross-References:
+Use with TOPIC 1 for yield basics, TOPIC 2 for why yields moved, and TOPIC 5 for policy-easing expectations.
+
+Core Idea:
+Interest rates differ across assets because securities differ in risk, liquidity, tax treatment, and time to maturity. The term structure focuses on how yields vary by maturity, while the risk structure focuses on differences in yields across assets with similar maturities but different risk characteristics.
+
+Why This Topic Matters for FRED:
+This topic is essential for interpreting DGS2, DGS10, T10Y2Y, AAA, and BAA. It is especially useful for answering questions about the yield curve, recession signals, term spreads, and credit spreads.
+
+Formula 1: Risk Premium
+RP = i_risky - i_safe
+Alternative form:
+RP = ic - iT
+Variables:
+RP = risk premium
+i_risky = risky bond yield
+i_safe = safe bond yield
+ic = corporate bond yield
+iT = Treasury yield
+Conceptual Meaning:
+Investors require extra return to hold risky bonds rather than safe bonds.
+What the Result Tells Us:
+A larger risk premium means the market is demanding more compensation for bearing default or liquidity risk.
+Interpretation in Markets:
+Widening spreads often signal worsening credit conditions or higher risk aversion.
+FRED Connection:
+Use BAA minus DGS10 or AAA minus DGS10 as practical measures.
+
+Formula 2: Expectations Theory, Two-Period Case
+i2_t = (i_t + i_e_t+1) / 2
+Variables:
+i2_t = two-period interest rate
+i_t = current one-period rate
+i_e_t+1 = expected one-period rate next period
+Conceptual Meaning:
+A two-period interest rate reflects the current short rate and the expected short rate next period.
+What the Result Tells Us:
+If markets expect future short rates to rise, the current two-period rate should also be higher.
+Interpretation in Markets:
+This helps explain why long yields can move before the central bank actually changes rates.
+FRED Connection:
+Useful when comparing short and long Treasury yields.
+
+Formula 3: Expectations Theory, n-Period Case
+in_t = [i_t + i_e_t+1 + i_e_t+2 + ... + i_e_t+n-1] / n
+Conceptual Meaning:
+Long-term yields reflect the average of expected future short-term rates.
+What the Result Tells Us:
+A low long yield relative to the current short rate may imply that markets expect future short rates to decline.
+Interpretation in Macroeconomics:
+This is one reason inverted yield curves are often interpreted as signals of expected slowdown.
+FRED Connection:
+Helps interpret DGS10 relative to DGS2.
+
+Formula 4: Liquidity Premium Theory
+in_t = [i_t + i_e_t+1 + i_e_t+2 + ... + i_e_t+n-1] / n + l_n_t
+Variables:
+l_n_t = liquidity premium or term premium
+Conceptual Meaning:
+Long-term rates include both expected future short rates and extra compensation for holding longer maturities.
+What the Result Tells Us:
+A steep yield curve may reflect either expected future rate increases, a positive term premium, or both.
+Interpretation in Markets:
+This improves on pure expectations theory by recognizing maturity risk.
+FRED Connection:
+Supports richer interpretation of Treasury term spreads.
+
+FRED-Linked Formula 5: Term Spread
+term_spread_t = DGS10_t - DGS2_t
+Alternative direct series:
+term_spread_t = T10Y2Y_t
+Conceptual Meaning:
+This measures the slope of the Treasury yield curve.
+What the Result Tells Us:
+A positive spread means the curve is upward sloping. A near-zero spread means the curve is flat. A negative spread means inversion.
+Interpretation in Macroeconomics:
+An inverted yield curve is often associated with expected policy easing and elevated recession risk.
+Related FRED Series:
+DGS2, DGS10, T10Y2Y
+
+FRED-Linked Formula 6: Credit Spread
+credit_spread_BAA_AAA_t = BAA_t - AAA_t
+Alternative form:
+credit_spread_BAA_10Y_t = BAA_t - DGS10_t
+Conceptual Meaning:
+This measures the extra yield required on lower-quality corporate debt relative to safer debt.
+What the Result Tells Us:
+A wider spread suggests tighter financial conditions, rising credit risk, or increased risk aversion.
+Interpretation in Markets:
+Credit spreads often widen before or during economic stress.
+Related FRED Series:
+BAA, AAA, DGS10
+
+FRED-Linked Formula 7: Simple Default Risk Proxy
+default_risk_proxy_t = BAA_t - DGS10_t
+Conceptual Meaning:
+This isolates the extra compensation demanded over long-term Treasuries.
+What the Result Tells Us:
+A rising value suggests deteriorating credit conditions.
+Interpretation in Macroeconomics:
+Useful for identifying stress that is not captured by Treasury yields alone.
+Related FRED Series:
+BAA, DGS10
+
+====================================================================
+TOPIC 4: CENTRAL BANKS
+====================================================================
+
+Entry ID:
+topic_4_central_banks
+
+Retrieval Label:
+fed_operations_reserves_and_balance_sheet
+
+Keywords:
+Federal Reserve, central bank, policy corridor, reserves, IORB, EFFR, FEDFUNDS, target range, balance sheet, WALCL, quantitative easing, reserve balances, monetary base, money multiplier, liquidity operations
+
+Primary FRED Series:
+FEDFUNDS, EFFR, DFEDTARL, DFEDTARU, IORB, WALCL, TOTRESNS, M2SL
+
+Typical Questions:
+- How does the Fed implement monetary policy in practice?
+- What does the effective federal funds rate say relative to the target range?
+- Is the Fed balance sheet expanding or shrinking?
+- What do reserves and IORB tell us about the operating framework?
+
+Answer Focus:
+Use this topic to explain implementation mechanics, reserve conditions, the policy corridor, and the balance-sheet side of central banking.
+
+Cross-References:
+Use with TOPIC 5 for policy stance, TOPIC 6 for money growth interpretation, and TOPIC 2 for broader transmission into rates.
+
+Core Idea:
+Central banks influence short-term rates, banking-system liquidity, reserve conditions, and broader financial stability. They use their balance sheet, policy rates, and institutional credibility to shape the macroeconomy. Understanding central banks is essential for linking policy actions to financial variables.
+
+Why This Topic Matters for FRED:
+This topic is directly tied to FEDFUNDS, EFFR, DFEDTARL, DFEDTARU, IORB, WALCL, TOTRESNS, and M2SL. It is useful when the user asks about the Federal Reserve, the policy corridor, liquidity, reserves, balance sheet policy, or monetary transmission.
+
+Formula 1: Monetary Base
+MB = C + R
+Variables:
+MB = monetary base
+C = currency in circulation
+R = reserves
+Conceptual Meaning:
+The monetary base consists of cash held by the public plus reserves held in the banking system.
+What the Result Tells Us:
+An increase in the monetary base means the central bank has expanded the foundation of the money supply.
+Interpretation in Policy Analysis:
+Changes in the monetary base affect liquidity and can influence broader money and credit conditions.
+FRED Connection:
+Can be discussed alongside reserve and money supply series.
+
+Formula 2: Monetary Base Decomposition
+MB = MBn + BR
+Variables:
+MBn = nonborrowed monetary base
+BR = borrowed reserves
+Conceptual Meaning:
+The monetary base can be split into the portion supplied directly by the central bank and the portion borrowed by banks.
+What the Result Tells Us:
+More borrowed reserves may indicate greater bank reliance on central bank funding.
+Interpretation in Financial Stability:
+This becomes more relevant during stress periods.
+FRED Connection:
+Useful conceptually even if exact series choices vary over time.
+
+Formula 3: Money Supply Identity
+M = m * MB
+Variables:
+M = money supply
+m = money multiplier
+MB = monetary base
+Conceptual Meaning:
+The money supply depends on both the monetary base and the extent to which the banking system multiplies that base into deposits.
+What the Result Tells Us:
+Money can grow even without a large rise in base money if the multiplier increases; it can also stagnate if the multiplier falls.
+Interpretation in Macroeconomics:
+This helps explain why base expansion does not always translate immediately into broad money growth or inflation.
+FRED Connection:
+Use M2SL and reserve-related discussion together.
+
+Formula 4: Simple Deposit Multiplier
+simple_multiplier = 1 / r
+Variables:
+r = reserve ratio
+Conceptual Meaning:
+With a lower reserve ratio, banks can support more deposits per unit of reserves.
+What the Result Tells Us:
+A lower reserve requirement increases the potential expansion of deposits.
+Interpretation in Banking:
+This is a simplified classroom formula and works best as intuition.
+FRED Connection:
+Useful conceptually rather than as a direct FRED computation.
+
+Formula 5: Currency and Reserve Ratios
+c = C / D
+r = DR / D
+Variables:
+C = currency held by the public
+D = deposits
+DR = desired reserves
+Conceptual Meaning:
+These behavioral ratios help determine the money multiplier.
+What the Result Tells Us:
+If the public wants more cash or banks want more reserves, the money multiplier falls.
+Interpretation in Financial Stress:
+Periods of uncertainty can reduce money creation through these channels.
+FRED Connection:
+Conceptual support for understanding why reserves and money do not always move one-for-one.
+
+Formula 6: Money Multiplier
+m = (1 + c) / (c + r)
+Variables:
+m = money multiplier
+c = currency-to-deposit ratio
+r = reserve-to-deposit ratio
+Conceptual Meaning:
+The multiplier depends on public cash-holding behavior and bank reserve behavior.
+What the Result Tells Us:
+A higher c or r lowers m, which weakens the translation from base money into broader money.
+Interpretation in Macroeconomics:
+This is key for explaining why monetary transmission may weaken in crisis periods.
+FRED Connection:
+Connect conceptually to reserve accumulation and broad money behavior.
+
+FRED-Linked Formula 7: Policy Corridor Midpoint
+target_mid_t = (DFEDTARU_t + DFEDTARL_t) / 2
+Conceptual Meaning:
+This computes the midpoint of the Federal Reserve's target range for the federal funds rate.
+What the Result Tells Us:
+It gives a simple benchmark for where the effective rate is expected to trade.
+Interpretation in Policy Analysis:
+Useful for comparing actual market rates with the announced target range.
+Related FRED Series:
+DFEDTARU, DFEDTARL
+
+FRED-Linked Formula 8: Effective Policy Gap
+policy_gap_t = EFFR_t - target_mid_t
+Alternative form:
+policy_gap_t = FEDFUNDS_t - target_mid_t
+Conceptual Meaning:
+This measures whether the effective short-term rate is above or below the target midpoint.
+What the Result Tells Us:
+A near-zero gap means market implementation is close to target. A persistent gap may indicate funding-market frictions or operating-framework effects.
+Interpretation in Central Banking:
+This is useful for discussing policy implementation quality.
+Related FRED Series:
+EFFR or FEDFUNDS, DFEDTARU, DFEDTARL
+
+FRED-Linked Formula 9: Reserve Floor Spread
+floor_spread_t = EFFR_t - IORB_t
+Conceptual Meaning:
+This compares the effective market rate with the interest paid on reserve balances.
+What the Result Tells Us:
+A negative spread means the market rate is below IORB; a smaller absolute spread indicates the floor system is binding more tightly.
+Interpretation in Monetary Operations:
+Useful for understanding how the Fed implements policy in an ample-reserves regime.
+Related FRED Series:
+EFFR, IORB
+
+FRED-Linked Formula 10: Balance-Sheet Growth
+WALCL_growth_yoy_t = 100 * (WALCL_t / WALCL_t-52 - 1)
+Conceptual Meaning:
+This measures yearly growth in the Federal Reserve's total assets.
+What the Result Tells Us:
+A large positive value means the central bank balance sheet has expanded significantly.
+Interpretation in Policy:
+Rapid growth often corresponds to quantitative easing or crisis support.
+Related FRED Series:
+WALCL
+
+FRED-Linked Formula 11: Money Growth
+M2_growth_yoy_t = 100 * (M2SL_t / M2SL_t-12 - 1)
+Conceptual Meaning:
+This measures the yearly growth rate of broad money.
+What the Result Tells Us:
+Rapid money growth can support demand and, under some conditions, future inflation.
+Interpretation in Macroeconomics:
+Money growth should not be interpreted mechanically, but it remains informative in a broad monetary analysis.
+Related FRED Series:
+M2SL
+
+====================================================================
+TOPIC 5: THE CONDUCT OF MONETARY POLICY
+====================================================================
+
+Entry ID:
+topic_5_conduct_of_monetary_policy
+
+Retrieval Label:
+policy_stance_taylor_rule_and_macro_benchmarking
+
+Keywords:
+monetary policy stance, restrictive, accommodative, neutral, Taylor rule, inflation gap, output gap, policy deviation, real policy rate, policy benchmark, above target inflation, below potential output, macro stabilization
+
+Primary FRED Series:
+FEDFUNDS, EFFR, CPIAUCSL, PCEPI, UNRATE, GDPC1, GDPPOT, DGS2, DGS10
+
+Typical Questions:
+- Is monetary policy restrictive or accommodative right now?
+- How does the actual policy rate compare with a Taylor-rule benchmark?
+- Is inflation still above target?
+- Does the output gap suggest the economy is overheating or operating below potential?
+
+Answer Focus:
+Use this topic to judge policy stance, compare actual rates with rule-based benchmarks, and connect inflation and output conditions to monetary-policy interpretation.
+
+Cross-References:
+Use with TOPIC 1 for real-rate logic, TOPIC 2 for rate drivers, TOPIC 4 for implementation mechanics, and TOPIC 6 for inflation persistence.
+
+Core Idea:
+Monetary policy aims to maintain price stability while supporting sustainable economic activity and financial stability. Central banks must decide how strongly to respond to inflation, unemployment, and output gaps. The conduct of policy can be studied through simple reaction functions and comparisons between actual rates and implied benchmark rates.
+
+Why This Topic Matters for FRED:
+This topic directly supports analysis using FEDFUNDS, EFFR, CPIAUCSL, PCEPI, UNRATE, GDPC1, GDPPOT, DGS2, and DGS10. It is useful when users ask whether policy is tight, loose, restrictive, accommodative, or consistent with inflation and growth conditions.
+
+Formula 1: Taylor Rule
+i_t = r_star + pi_t + 0.5*(pi_t - pi_star) + 0.5*(y_t - y_star)
+Variables:
+i_t = policy rate implied by the rule
+r_star = equilibrium real interest rate
+pi_t = current inflation rate
+pi_star = inflation target
+y_t - y_star = output gap
+Conceptual Meaning:
+The central bank should raise rates when inflation is above target or output is above potential, and lower rates when the economy is weak.
+What the Result Tells Us:
+A higher Taylor-rule rate suggests tighter policy would be justified by macro conditions. A lower one suggests more accommodative policy could be justified.
+Interpretation in Policy Analysis:
+This is not a mechanical rule, but it is a useful benchmark for evaluating policy stance.
+FRED Connection:
+Use inflation from PCEPI or CPIAUCSL and output gap from GDPC1 and GDPPOT.
+
+Formula 2: Inflation Gap
+inflation_gap_t = pi_t - pi_star
+Variables:
+pi_t = current inflation
+pi_star = target inflation
+Conceptual Meaning:
+This measures how far inflation is from the central bank's target.
+What the Result Tells Us:
+A positive value means inflation is above target; a negative value means inflation is below target.
+Interpretation in Policy:
+A large positive inflation gap typically supports a tighter policy stance.
+FRED Connection:
+Use PCEPI or CPIAUCSL to calculate pi_t.
+
+Formula 3: Output Gap
+output_gap_t = ((Y_t - Y_star_t) / Y_star_t) * 100
+Variables:
+Y_t = actual real output
+Y_star_t = potential real output
+Conceptual Meaning:
+This measures whether the economy is operating above or below potential.
+What the Result Tells Us:
+A positive gap suggests overheating pressure; a negative gap suggests slack.
+Interpretation in Macroeconomics:
+A positive output gap can add inflation pressure, while a negative gap can justify easing.
+FRED Connection:
+Use GDPC1 and GDPPOT.
+
+FRED-Linked Formula 4: PCE Inflation
+pi_PCE_yoy_t = 100 * (PCEPI_t / PCEPI_t-12 - 1)
+Conceptual Meaning:
+This transforms the PCE index into an annual inflation rate.
+What the Result Tells Us:
+It provides a direct measure of inflation in the Fed's preferred gauge.
+Interpretation in Policy:
+If PCE inflation remains above target, policy may need to remain restrictive.
+Related FRED Series:
+PCEPI
+
+FRED-Linked Formula 5: Output Gap with FRED
+output_gap_t = ((GDPC1_t - GDPPOT_t) / GDPPOT_t) * 100
+Conceptual Meaning:
+This compares actual real GDP with potential real GDP.
+What the Result Tells Us:
+A positive value implies above-potential activity; a negative value implies economic slack.
+Interpretation in Policy:
+Useful in Taylor-rule style policy benchmarks.
+Related FRED Series:
+GDPC1, GDPPOT
+
+FRED-Linked Formula 6: Taylor-Rule Implied Rate
+i_Taylor_t = r_star + pi_t + 0.5*(pi_t - pi_star) + 0.5*output_gap_t
+Conceptual Meaning:
+This computes the policy rate suggested by a simple policy rule.
+What the Result Tells Us:
+If i_Taylor is above the actual policy rate, policy may be relatively accommodative versus the rule. If it is below, policy may be relatively restrictive.
+Interpretation in Policy Analysis:
+A useful benchmark, not a definitive judgment.
+Related FRED Series:
+PCEPI or CPIAUCSL, GDPC1, GDPPOT, FEDFUNDS or EFFR
+
+FRED-Linked Formula 7: Policy Deviation
+policy_deviation_t = FEDFUNDS_t - i_Taylor_t
+Alternative form:
+policy_deviation_t = EFFR_t - i_Taylor_t
+Conceptual Meaning:
+This compares the actual short-term policy rate with a rule-based benchmark.
+What the Result Tells Us:
+A positive value means actual policy is tighter than the benchmark; a negative value means it is looser.
+Interpretation in Monetary Analysis:
+Helpful for framing whether policy is above or below a neutral-style reference.
+Related FRED Series:
+FEDFUNDS or EFFR, PCEPI or CPIAUCSL, GDPC1, GDPPOT
+
+FRED-Linked Formula 8: Real Policy Rate
+real_policy_rate_t approx FEDFUNDS_t - pi_t
+Conceptual Meaning:
+This measures the inflation-adjusted short-term policy rate.
+What the Result Tells Us:
+A strongly positive real policy rate indicates relatively restrictive borrowing conditions.
+Interpretation in Policy:
+This is often one of the clearest quick summaries of policy stance.
+Related FRED Series:
+FEDFUNDS, PCEPI or CPIAUCSL
+
+====================================================================
+TOPIC 6: MONEY AND INFLATION
+====================================================================
+
+Entry ID:
+topic_6_money_and_inflation
+
+Retrieval Label:
+money_growth_inflation_and_quantity_theory
+
+Keywords:
+money and inflation, M2, quantity theory, money growth, inflation persistence, CPI, PCE, annualized inflation, velocity, real money balances, output growth, inflation momentum, price level, monetary conditions
+
+Primary FRED Series:
+M2SL, CPIAUCSL, PCEPI, GDPC1, FEDFUNDS, UNRATE
+
+Typical Questions:
+- Does money growth still matter for inflation?
+- Is inflation likely temporary or persistent?
+- How should I compare M2 growth with GDP growth?
+- What is the difference between year-over-year inflation and monthly annualized inflation?
+
+Answer Focus:
+Use this topic to connect broad money, output growth, inflation measures, and inflation persistence while emphasizing that short-run relationships can differ from long-run theory.
+
+Cross-References:
+Use with TOPIC 1 for real-rate interpretation, TOPIC 2 for inflation expectations, TOPIC 4 for money creation mechanisms, and TOPIC 5 for policy stance.
+
+Core Idea:
+Persistent inflation is closely related to monetary conditions, real output, and the behavior of inflation expectations. The long-run relationship between money growth and inflation is often summarized by the quantity theory. This topic helps connect broad money, output, and price-level measures.
+
+Why This Topic Matters for FRED:
+This topic is directly linked to M2SL, CPIAUCSL, PCEPI, GDPC1, FEDFUNDS, and sometimes UNRATE. It is especially useful when the user asks whether inflation is temporary or persistent, whether money growth matters, and how inflation should be interpreted alongside policy data.
+
+Formula 1: Equation of Exchange
+M * V = P * Y
+Variables:
+M = money supply
+V = velocity of money
+P = price level
+Y = real output
+Conceptual Meaning:
+Total money spending in the economy equals the nominal value of output.
+What the Result Tells Us:
+If money grows much faster than real output and velocity is stable, inflation pressure can build.
+Interpretation in Macroeconomics:
+This is a long-run framework, not a perfect short-run forecasting rule.
+FRED Connection:
+Use M2SL for money, price indexes for inflation, and GDPC1 for output.
+
+Formula 2: Growth-Rate Form
+g_M + g_V = pi + g_Y
+Equivalent rearrangement:
+pi = g_M + g_V - g_Y
+Variables:
+g_M = money growth
+g_V = growth in velocity
+pi = inflation
+g_Y = real output growth
+Conceptual Meaning:
+Inflation depends on money growth, output growth, and velocity behavior.
+What the Result Tells Us:
+If money growth exceeds real output growth and velocity is not falling enough to offset it, inflation tends to rise.
+Interpretation in Policy:
+This is one reason monetary conditions are still monitored when assessing inflation persistence.
+FRED Connection:
+Use M2SL for money growth and GDPC1 for real output growth.
+
+Formula 3: Stable-Velocity Approximation
+pi approx g_M - g_Y
+Conceptual Meaning:
+If velocity is roughly stable over time, inflation is approximately equal to money growth minus real output growth.
+What the Result Tells Us:
+A large gap between money growth and output growth suggests medium-run inflation pressure.
+Interpretation in Practice:
+This is a simplified approximation, not a complete inflation model.
+FRED Connection:
+Useful for a quick money-and-inflation diagnostic.
+
+Formula 4: Real Money Balances
+real_money_balances = M / P
+Conceptual Meaning:
+This measures the purchasing power of the nominal money supply.
+What the Result Tells Us:
+If prices rise faster than money, real money balances fall.
+Interpretation in Macroeconomics:
+Falling real balances can tighten real liquidity conditions even if nominal money is unchanged.
+FRED Connection:
+Use M2SL with CPIAUCSL or PCEPI as a rough proxy.
+
+FRED-Linked Formula 5: CPI Inflation
+pi_CPI_yoy_t = 100 * (CPIAUCSL_t / CPIAUCSL_t-12 - 1)
+Conceptual Meaning:
+This computes annual consumer-price inflation.
+What the Result Tells Us:
+A high value indicates broad consumer prices are rising faster than a year earlier.
+Interpretation in Macroeconomics:
+Persistent elevation suggests inflation is not fully normalized.
+Related FRED Series:
+CPIAUCSL
+
+FRED-Linked Formula 6: PCE Inflation
+pi_PCE_yoy_t = 100 * (PCEPI_t / PCEPI_t-12 - 1)
+Conceptual Meaning:
+This computes annual inflation in personal consumption expenditures.
+What the Result Tells Us:
+Useful as the main inflation measure in central bank analysis.
+Interpretation in Policy:
+Often the preferred measure when discussing the Fed's 2 percent target.
+Related FRED Series:
+PCEPI
+
+FRED-Linked Formula 7: Monthly Annualized Inflation
+pi_ann_monthly_t = 1200 * ln(P_t / P_t-1)
+Conceptual Meaning:
+This converts one-month price change into an annualized inflation rate.
+What the Result Tells Us:
+It shows short-run inflation momentum more quickly than year-over-year measures.
+Interpretation in Policy:
+Helpful for seeing whether inflation is accelerating or cooling in recent months.
+Related FRED Series:
+CPIAUCSL or PCEPI
+
+FRED-Linked Formula 8: Quarterly Annualized Inflation
+pi_ann_quarterly_t = 400 * ln(P_t / P_t-1)
+Conceptual Meaning:
+This converts one-quarter price change into an annualized inflation rate.
+What the Result Tells Us:
+Useful for analyzing inflation momentum in quarterly data.
+Interpretation in Macroeconomics:
+Can provide a cleaner signal than monthly data.
+Related FRED Series:
+Quarterly price indexes if used
+
+FRED-Linked Formula 9: Money Growth
+M2_growth_yoy_t = 100 * (M2SL_t / M2SL_t-12 - 1)
+Conceptual Meaning:
+This calculates annual broad-money growth.
+What the Result Tells Us:
+A high value means money balances are expanding rapidly relative to one year ago.
+Interpretation in Macroeconomics:
+Rapid money growth can support demand and may matter for inflation, especially over longer horizons.
+Related FRED Series:
+M2SL
+
+FRED-Linked Formula 10: Real Output Growth
+real_GDP_growth_yoy_t = 100 * (GDPC1_t / GDPC1_t-4 - 1)
+Conceptual Meaning:
+This computes annual real GDP growth from quarterly data.
+What the Result Tells Us:
+A higher value means stronger real economic growth.
+Interpretation in Macroeconomics:
+Helps compare output growth with money growth and inflation.
+Related FRED Series:
+GDPC1
+
+FRED-Linked Formula 11: Quantity-Theory Inflation Proxy
+pi_hat_t approx M2_growth_yoy_t - real_GDP_growth_yoy_t
+Conceptual Meaning:
+This is a simple practical version of the quantity-theory logic.
+What the Result Tells Us:
+If money growth far exceeds real output growth, inflation pressure may persist unless velocity falls sharply.
+Interpretation in Macroeconomics:
+This is a rough diagnostic, not a stand-alone forecast.
+Related FRED Series:
+M2SL, GDPC1
+
+====================================================================
+HIGH-VALUE CROSS-TOPIC INTERPRETATION RULES FOR RAG ANSWERS
+====================================================================
+
+Entry ID:
+topic_7_cross_topic_interpretation_rules
+
+Retrieval Label:
+cross_topic_macro_interpretation_rules
+
+Keywords:
+cross-topic rules, macro interpretation, combined signals, real rates, yield-curve inversion, credit spreads, policy stance, money growth, inflation, balance sheet, risk signal, caution statements
+
+Primary FRED Series:
+FEDFUNDS, EFFR, CPIAUCSL, PCEPI, DGS10, DGS2, T10Y2Y, BAA, M2SL, WALCL
+
+Typical Questions:
+- How should multiple macro indicators be interpreted together?
+- What cautions should I include in a macro answer?
+- Which combined signals matter most for rates, inflation, and recession risk?
+
+Answer Focus:
+Use this section when an answer needs synthesis across multiple indicators or when the response should include cautionary interpretation rather than a single-series description.
+
+Cross-References:
+This section is designed to be used with any of TOPIC 1 through TOPIC 6.
+
+Rule 1:
+If nominal interest rates rise but inflation also rises, the correct question is whether real rates increased.
+Useful Formula:
+real_rate approx nominal_rate - inflation
+Why It Matters:
+This avoids incorrectly concluding that policy became restrictive just because nominal rates increased.
+
+Rule 2:
+If DGS10 - DGS2 becomes negative, the yield curve is inverted.
+Typical Interpretation:
+Markets may be expecting weaker future growth and future policy easing.
+Caution:
+This is a signal, not proof, of recession.
+
+Rule 3:
+If BAA - DGS10 widens sharply, financial conditions are likely tightening.
+Typical Interpretation:
+Credit risk or market stress is increasing beyond what Treasury rates alone show.
+
+Rule 4:
+If CPI or PCE inflation remains above target while the real policy rate is still low, policy may not yet be strongly restrictive.
+Useful Formula:
+real_policy_rate approx FEDFUNDS - inflation
+
+Rule 5:
+If M2 growth slows sharply while inflation also falls later, the system can discuss a lagged relationship between money growth and inflation.
+Caution:
+The relationship is informative but not mechanically one-for-one in the short run.
+
+Rule 6:
+If WALCL rises rapidly, the central bank balance sheet is expanding.
+Typical Interpretation:
+This may reflect crisis support, quantitative easing, or a broader liquidity response.
+
+====================================================================
+QUERY-TO-TOPIC ROUTING GUIDE
+====================================================================
+
+Route the question to the most relevant section using the signals below.
+
+Routing Rule 1:
+If the question asks about bond prices, present value, nominal versus real rates, or how inflation changes the meaning of rates, retrieve TOPIC 1 first.
+
+Routing Rule 2:
+If the question asks why rates moved, whether inflation expectations pushed yields higher, or how labor-market conditions affect rates, retrieve TOPIC 2 first.
+
+Routing Rule 3:
+If the question mentions yield curve, inversion, term spread, recession signal, credit spread, BAA, AAA, DGS10, DGS2, or T10Y2Y, retrieve TOPIC 3 first and then the cross-topic rules if synthesis is needed.
+
+Routing Rule 4:
+If the question mentions the Federal Reserve's operating framework, reserve balances, IORB, target range, EFFR, or balance sheet expansion and contraction, retrieve TOPIC 4 first.
+
+Routing Rule 5:
+If the question asks whether policy is restrictive, accommodative, neutral, above or below a Taylor-rule benchmark, or how to evaluate policy stance, retrieve TOPIC 5 first.
+
+Routing Rule 6:
+If the question asks about money growth, inflation persistence, quantity theory, M2, annualized inflation, or the relation between output growth and inflation, retrieve TOPIC 6 first.
+
+Routing Rule 7:
+If the question combines live FRED values with an interpretation request, retrieve the primary topical section plus the cross-topic rules section.
+
+Routing Rule 8:
+If the question includes both inflation and policy stance, retrieve TOPIC 1, TOPIC 5, and TOPIC 6 in that order.
+
+Routing Rule 9:
+If the question includes both long-term yields and recession risk, retrieve TOPIC 3 and then TOPIC 2 or TOPIC 5 depending on whether the emphasis is market expectations or policy stance.
+
+Routing Rule 10:
+If no exact keyword match is found, prefer the section whose Core Idea and Why This Topic Matters for FRED most closely match the user's intent.
+
+End of Expanded Knowledge Base.

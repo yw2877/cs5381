@@ -10,7 +10,7 @@ rules:
       When analyzing data, adhere to the following rules:
 
       **1. Output Format:**
-      - Always return results as a well-formatted markdown table
+      - Start the response with the exact heading `## Current Shortages Summary`, then return a well-formatted markdown table
       - Include column headers that are clear and descriptive
       - Use consistent formatting (dates, numbers, text)
       - Sort results by most relevant metric (e.g., date, severity, count)
