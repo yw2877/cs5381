@@ -77,11 +77,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
           git add 12_end/data/traffic.db
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
             git commit -m "chore: ingest traffic data $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
