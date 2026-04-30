@@ -65,6 +65,7 @@ jobs:
             any::tibble
             any::purrr
             any::lubridate
+            any::jsonlite
             any::DBI
             any::RSQLite
 
