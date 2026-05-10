@@ -1,0 +1,8 @@
+dimension,description,scale,benchmark
+fred_evidence_use,Uses the relevant FRED indicators and reports their direction or meaning accurately.,0-4,4 = all core series are used correctly with clear interpretation.
+rag_grounding,Connects the brief to Mishkin-style macro concepts from the retrieval context.,0-4,4 = concepts support the claims rather than appearing as decoration.
+macro_reasoning,"Explains whether conditions look restrictive, mixed, or loose using coherent macro logic.",0-4,"4 = conclusion follows from policy, inflation, labor, and yield evidence."
+tool_faithfulness,"Stays within the evidence packet and avoids invented data, forecasts, or unsupported recommendations.",0-4,4 = no material unsupported claims.
+risk_framing,Treats SP500/VIX or market-risk material as a proxy and avoids portfolio/investment overclaims.,0-4,4 = risk appendix is useful and correctly caveated.
+stakeholder_clarity,Makes the brief understandable for a nontechnical but serious reader.,0-4,"4 = concise, direct, and easy to act on."
+limits_transparency,"Clearly states uncertainty, data windows, fallback status, and interpretive limits.",0-4,4 = limits are specific and visible.

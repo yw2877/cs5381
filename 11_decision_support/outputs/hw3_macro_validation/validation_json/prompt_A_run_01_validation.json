@@ -1,0 +1,15 @@
+{
+  "fred_evidence_use": 1,
+  "rag_grounding": 1,
+  "macro_reasoning": 1,
+  "tool_faithfulness": 1,
+  "risk_framing": 2,
+  "stakeholder_clarity": 2,
+  "limits_transparency": 3,
+  "overall_score": 1.571,
+  "reviewer_overall_score": 1,
+  "pass": false,
+  "main_strength": "Identifies key data trends and uses derived signals.",
+  "main_weakness": "Overly simplistic interpretation and lacks specific policy implications. Risk framing is weak and relies on a single market proxy.",
+  "revision_advice": "Expand on the policy implications of the data, providing a more nuanced assessment of the economic outlook. Strengthen the risk framing by discussing potential policy responses and alternative risk measures."
+}

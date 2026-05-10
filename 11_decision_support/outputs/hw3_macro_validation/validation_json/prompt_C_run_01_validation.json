@@ -1,0 +1,15 @@
+{
+  "fred_evidence_use": 1,
+  "rag_grounding": 2,
+  "macro_reasoning": 2,
+  "tool_faithfulness": 3,
+  "risk_framing": 2,
+  "stakeholder_clarity": 3,
+  "limits_transparency": 3,
+  "overall_score": 2.286,
+  "reviewer_overall_score": 2.4,
+  "pass": false,
+  "main_strength": "The brief correctly identifies key data trends (inflation, rates) and uses derived signals.",
+  "main_weakness": "The reasoning lacks depth and doesn't fully connect the evidence to Mishkin-style concepts. The risk context is superficial.",
+  "revision_advice": "Expand the macro reasoning to explicitly state restrictive conditions and link them to the evidence. Provide more context for the risk signals and clearly state their limitations."
+}

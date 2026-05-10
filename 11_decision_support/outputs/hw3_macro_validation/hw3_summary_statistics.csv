@@ -1,0 +1,4 @@
+prompt_id,prompt_name,n,mean_overall,sd_overall,mean_fred_evidence,mean_rag_grounding,mean_macro_reasoning,mean_tool_faithfulness,mean_risk_framing,mean_stakeholder_clarity,mean_limits_transparency
+C,Decision-Focused Stakeholder Brief,3,2.286,0,1.333,1.667,2,3,2,3,3
+B,Evidence-Strict Macro Brief,3,2.238,0.083,2,1.333,2,3,2,3,2.333
+A,Baseline Macro Brief,3,1.381,0.165,1,1,1,1,1.333,2,2.333

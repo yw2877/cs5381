@@ -1,0 +1,15 @@
+{
+  "fred_evidence_use": 1,
+  "rag_grounding": 2,
+  "macro_reasoning": 2,
+  "tool_faithfulness": 3,
+  "risk_framing": 2,
+  "stakeholder_clarity": 3,
+  "limits_transparency": 3,
+  "overall_score": 2.286,
+  "reviewer_overall_score": 2,
+  "pass": false,
+  "main_strength": "The report correctly identifies key data trends and uses derived signals appropriately.",
+  "main_weakness": "The interpretation of the data lacks sufficient depth and doesn’t fully leverage the provided evidence packet’s calculations and context. The risk section is superficial.",
+  "revision_advice": "Expand the macro reasoning to more explicitly connect the data to Mishkin-style concepts and provide a more nuanced assessment of the policy stance. Strengthen the risk section with more detailed analysis of the VIX and yield curve dynamics."
+}
